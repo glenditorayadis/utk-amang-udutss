@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Memory Archive :  Amang Pendeta GT (Marudut Marpaung)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Courier+New&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" async></script>
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(315deg, #1a0836, #0f172a, #111827, #2d0b4e);
+      --text-main: #f8fafc;
+      --text-sub: #cbd5e1;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --accent-primary: #38bdf8;
+      --accent-secondary: #ff8e53;
+      --accent-gold: #ffeaa7;
+      --popup-bg: linear-gradient(145deg, #1e293b, #0f172a);
+      --btn-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      --btn-text: #1e293b;
+    }
+
+    body.light-theme {
+      --bg-gradient: linear-gradient(315deg, #f0f9ff, #e0f2fe, #bae6fd, #e0e7ff);
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(0, 0, 0, 0.15);
+      --accent-primary: #0284c7;
+      --accent-secondary: #ea580c;
+      --accent-gold: #b45309;
+      --popup-bg: linear-gradient(145deg, #ffffff, #f8fafc);
+    }
+
+    body.en-mode .lang-id { display: none !important; }
+    body:not(.en-mode) .lang-en { display: none !important; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      transition: background 0.6s ease, color 0.6s ease;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #particle-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+
+    /* ==========================================
+       BIRTHDAY TERMINAL BOOT
+    ========================================== */
+    #boot-screen {
+      position: fixed; inset: 0; z-index: 99999;
+      background: radial-gradient(circle at 50% 50%, #07111f, #000000);
+      color: #38bdf8; display: flex; align-items: center; justify-content: center; padding: 20px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #boot-screen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    
+    .boot-terminal {
+      width: min(750px, 100%); border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px; background: rgba(0, 0, 0, 0.8); box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+      font-family: "Courier New", monospace; overflow: hidden;
+    }
+    .boot-bar { display: flex; gap: 8px; padding: 12px 15px; background: #0f172a; border-bottom: 1px solid #1e293b; }
+    .boot-dot { width: 12px; height: 12px; border-radius: 50%; background: #475569; }
+    .boot-content { padding: 30px; min-height: 300px; font-size: 15px; line-height: 2; color: #10b981; }
+    .boot-cursor { display: inline-block; width: 10px; height: 1.2em; background: #10b981; animation: blinkCursor 0.8s steps(1) infinite; vertical-align: middle; }
+
+    @keyframes blinkCursor { 50% { opacity: 0; } }
+
+    /* ==========================================
+       BIRTHDAY GATE (14 OCTOBER)
+    ========================================== */
+    #lock-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      overflow-y: auto;
+    }
+    #lock-screen.unlocked { opacity: 0; transform: scale(1.1); pointer-events: none; }
+    
+    .lock-card {
+      max-width: 480px; width: 100%; background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: 24px; padding: 40px 30px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      animation: gateFloat 4s ease-in-out infinite;
+      margin: auto;
+    }
+    
+    .lock-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 26px;
+      padding: 2px;
+      background: conic-gradient(from 0deg, var(--accent-primary), var(--accent-secondary), var(--accent-gold), var(--accent-primary));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: borderSpin 6s linear infinite;
+      pointer-events: none;
+      opacity: .75;
+    }
+    .lock-card > * { position: relative; z-index: 2; }
+    
+    @keyframes borderSpin { to{transform:rotate(360deg)} }
+
+    .gate-orbit {
+      width: 92px; height: 92px; margin: 0 auto 20px; position: relative;
+      border: 1px solid rgba(56,189,248,.35); border-radius: 50%;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 0 35px rgba(56,189,248,.18), inset 0 0 25px rgba(255,234,167,.08);
+    }
+    .gate-orbit::before, .gate-orbit::after {
+      content:""; position:absolute; inset:8px; border:1px dashed rgba(255,234,167,.45);
+      border-radius:50%; animation: orbitSpin 8s linear infinite;
+    }
+    .gate-orbit::after { inset:20px; animation-direction: reverse; animation-duration:5s; border-color:rgba(255,142,83,.45); }
+    .gate-core { font-size:34px; animation: corePulse 1.8s ease-in-out infinite; }
+    
+    @keyframes orbitSpin { to{transform:rotate(360deg)} }
+    @keyframes corePulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 3px rgba(56,189,248,.5))} 50%{transform:scale(1.12);filter:drop-shadow(0 0 12px rgba(255,234,167,.8))} }
+    
+    .gate-status {
+      margin: 0 auto 18px; width: fit-content; padding: 6px 12px; border-radius:999px;
+      font: 11px "Courier New", monospace; letter-spacing:1.2px; color:#67e8f9;
+      background:rgba(56,189,248,.07); border:1px solid rgba(56,189,248,.22);
+      text-transform:uppercase;
+    }
+
+    .lock-card h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 10px; color: var(--accent-gold); }
+    .lock-card p { font-size: 14px; color: var(--text-sub); margin-bottom: 25px; line-height: 1.6; }
+    
+    .chip-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; max-height: 140px; overflow-y: auto; padding: 10px;
+      background: rgba(0,0,0,0.2); border-radius: 14px; border: 1px solid var(--glass-border); margin-bottom: 20px; justify-content: center;
+    }
+    .chip-grid::-webkit-scrollbar { width: 5px; }
+    .chip-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 10px; }
+    
+    .chip-btn {
+      padding: 8px 14px; border-radius: 10px; border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.05); color: var(--text-main); font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s;
+    }
+    .chip-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+    .chip-btn.active { background: var(--accent-secondary); color: #fff; border-color: var(--accent-secondary); font-weight: bold; }
+    
+    .gate-progress {
+      height:4px; width:100%; border-radius:99px; background:rgba(255,255,255,.08);
+      overflow:hidden; margin:14px 0 20px;
+    }
+    .gate-progress span {
+      display:block; height:100%; width:0; border-radius:inherit;
+      background:linear-gradient(90deg,var(--accent-primary),var(--accent-secondary),var(--accent-gold));
+      transition:width .45s ease;
+    }
+
+    .unlock-btn {
+      width: 100%; padding: 15px; border-radius: 30px; border: none; font-size: 16px; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-primary), #2563eb); color: #fff; cursor: pointer; transition: 0.3s; margin-top: 10px;
+      position:relative; overflow:hidden;
+    }
+    .unlock-btn::after {
+      content:""; position:absolute; top:0; left:-120%; width:70%; height:100%;
+      background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+      transform:skewX(-20deg); animation: buttonShine 3.2s ease-in-out infinite;
+    }
+    @keyframes buttonShine { 0%,25%{left:-120%} 65%,100%{left:140%} }
+
+    .unlock-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.6); }
+
+    /* ==========================================
+       MAIN APP / DASHBOARD
+    ========================================== */
+    .container {
+      max-width: 750px; width: 92%; padding: 40px 30px; margin: 50px 0;
+      background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px; border: 1px solid var(--glass-border); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      position: relative; z-index: 10;
+    }
+    
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--accent-gold); margin-bottom: 5px; }
+    .header h2 { font-size: 15px; font-weight: 400; color: var(--text-sub); margin-bottom: 20px; letter-spacing: 0.5px; line-height: 1.6;}
+
+    .btn-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+    .msg-button {
+      padding: 18px 25px; font-size: 14.5px; font-family: 'Poppins', sans-serif; font-weight: 600;
+      color: var(--btn-text); background: var(--btn-gradient); border: none; border-radius: 16px;
+      cursor: pointer; transition: 0.3s; box-shadow: 0 6px 20px rgba(0,0,0,0.1); display: flex; justify-content: space-between;
+      align-items: center; text-align: left;
+    }
+    .msg-button:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); }
+    .msg-button:disabled { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); cursor: not-allowed; border: 1px solid rgba(255,255,255,0.1); box-shadow: none;}
+    
+    /* PHOTO FRAMES SECTION */
+    .photo-frames-container { margin-bottom: 30px; padding: 25px; background: rgba(0,0,0,0.25); border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: inset 0 0 20px rgba(0,0,0,0.2); }
+    .frames-grid { display: flex; gap: 15px; justify-content: space-between; flex-wrap: wrap;}
+    .frame-box { flex: 1; min-width: 140px; aspect-ratio: 4/5; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,142,83,0.5); border-radius: 16px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.4s; box-shadow: 0 8px 20px rgba(0,0,0,0.15);}
+    .frame-box:hover { background: rgba(255,255,255,0.08); border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(56, 189, 248, 0.25);}
+    .frame-img { width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; z-index: 2; transition: transform 0.5s ease; }
+    .frame-box:hover .frame-img { transform: scale(1.05); }
+    .frame-placeholder { z-index: 1; color: var(--text-sub); text-align: center; font-size: 13.5px; font-weight: 500; opacity: 0.8; line-height: 1.5;}
+
+    /* ==========================================
+       POPUP MODAL
+    ========================================== */
+    .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 10000; overflow-y: auto; padding: 20px; }
+    .popup-content {
+      background: var(--popup-bg); margin: 5% auto; padding: 40px; border-radius: 24px;
+      max-width: 750px; width: 100%; position: relative; color: var(--text-main); border: 1px solid var(--glass-border);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .popup-content h2 { font-family: 'Playfair Display', serif; color: var(--accent-secondary); border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-bottom: 20px; font-size: 24px; }
+    .popup-text-container { font-size: 15.5px; line-height: 1.9; min-height: 120px; white-space: pre-wrap; color: var(--text-main); }
+    .cursor { display: inline-block; width: 8px; height: 18px; background: var(--accent-secondary); animation: blink 0.8s infinite; vertical-align: middle; margin-left: 4px; }
+    
+    .close { position: absolute; top: 20px; right: 25px; color: var(--text-sub); font-size: 32px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .close:hover { color: #ef4444; transform: rotate(90deg); }
+
+    .skip-btn { display: inline-block; margin-top: 20px; font-size: 12.5px; color: var(--text-sub); text-decoration: underline; background: none; border: none; cursor: pointer; }
+
+    /* CHAT STYLES */
+    .chat-box { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 10px; padding-bottom: 15px;}
+    .chat-msg { max-width: 85%; padding: 12px 18px; border-radius: 18px; font-size: 14.5px; line-height: 1.5; position: relative; opacity: 0; animation: fadeInChat 0.4s forwards; font-family: 'Poppins', sans-serif;}
+    .chat-msg.me { align-self: flex-end; background: linear-gradient(135deg, var(--accent-primary), #2563eb); color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 4px 15px rgba(37,99,235,0.25); }
+    .chat-msg.them { align-self: flex-start; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-bottom-left-radius: 4px; color: var(--text-main); }
+    @keyframes fadeInChat { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(15px); } }
+
+    /* QUIZ & MEDIA STYLES */
+    .quiz-box { display: none; margin-top: 25px; background: rgba(0,0,0,0.3); padding: 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); box-shadow: inset 0 0 15px rgba(0,0,0,0.2); }
+    .quiz-box input { padding: 14px 18px; border-radius: 12px; border: 1px solid var(--accent-primary); background: rgba(255,255,255,0.08); color: var(--text-main); font-family: 'Poppins'; width: 100%; margin-top: 12px; margin-bottom: 12px; outline: none; font-size: 15px; transition: 0.3s; }
+    .quiz-box input:focus { border-color: var(--accent-secondary); box-shadow: 0 0 10px rgba(255, 142, 83, 0.3); }
+    .quiz-box button { padding: 14px 25px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--accent-primary), #2563eb); color: #fff; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; font-size: 15px; letter-spacing: 0.5px;}
+
+    .verse-card { margin-top:20px; padding:20px; border-radius:16px; border-left:4px solid var(--accent-gold); background:rgba(255,234,167,.06); line-height:1.8; }
+    .verse-card cite { display:block; margin-top:5px; color:var(--accent-gold); font-style:italic; font-weight:600; margin-bottom:15px;}
+
+    /* MEDIA CONTAINER (SONG & YOUTUBE) */
+    .media-container { display: none; margin-top: 25px; text-align: center; }
+    .song-photo { width: 100%; max-height: 280px; object-fit: cover; border-radius: 16px; border: 2px solid var(--glass-border); margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+    .yt-btn { display: inline-block; width: 100%; padding: 16px; background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; transition: 0.3s; margin-bottom: 20px; font-size: 15px; letter-spacing: 0.5px;}
+    .yt-btn:hover { background: linear-gradient(135deg, #f87171, #dc2626); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4); }
+    .lyrics-box { background: rgba(0,0,0,0.25); padding: 20px; border-radius: 12px; font-style: italic; font-size: 14.5px; text-align: center; border-left: 3px solid var(--accent-gold); border-right: 3px solid var(--accent-gold); color: #fdf6e3; line-height: 1.8; white-space: pre-line;}
+
+
+    /* FLASHCARD STYLES */
+    .dynamic-flashcard-container { display: none; margin-top: 25px; padding: 20px; border-radius: 18px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); }
+    .flashcard { min-height: 200px; border-radius: 18px; perspective: 1000px; cursor: pointer; position: relative; }
+    .flashcard-inner { position: relative; width: 100%; height: 100%; min-height: 200px; transition: transform 0.6s; transform-style: preserve-3d; }
+    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+    
+    .flash-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 2px solid var(--accent-primary); background: linear-gradient(145deg, rgba(56,189,248,0.15), rgba(255,142,83,0.1)); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); transition: box-shadow 0.3s; }
+    .flash-face:hover { box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); }
+    .flash-back { transform: rotateY(180deg); background: linear-gradient(145deg, rgba(255,234,167,0.15), rgba(56,189,248,0.1)); border-color: var(--accent-secondary); box-shadow: 0 0 15px rgba(255, 142, 83, 0.3); }
+    .flash-back:hover { box-shadow: 0 0 25px rgba(255, 142, 83, 0.5); }
+    
+    .flash-face strong { font-family: 'Playfair Display', serif; font-size: 20px; line-height: 1.4; color: var(--accent-gold); }
+    .flash-controls { display: flex; gap: 10px; margin-top: 15px; }
+    .flash-controls button { flex: 1; padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.1); color: var(--text-main); cursor: pointer; transition: 0.3s; }
+    .flash-controls button:hover { background: rgba(255,255,255,0.2); }
+
+    /* ==========================================
+       FOOTER & TOGGLES
+    ========================================== */
+    .site-footer { max-width: 750px; width: 92%; margin: 0 auto 40px; padding: 20px; text-align: center; color: var(--text-sub); font-size: 13.5px; line-height: 1.9; position: relative; z-index: 10; border-top: 1px solid var(--glass-border); }
+    .footer-toggles { display: flex; gap: 15px; justify-content: center; margin-bottom: 25px; }
+    .footer-toggles button {
+      padding: 10px 18px; border-radius: 20px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--text-main); font-size: 12.5px; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); font-family: 'Poppins'; font-weight: 500;
+    }
+    .footer-toggles button:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+    
+    .update-stamp {
+      display: inline-block; margin-top: 25px; padding: 12px 20px; border-radius: 12px;
+      border: 2px solid var(--accent-secondary); color: var(--accent-gold);
+      background: rgba(255, 142, 83, 0.1); font-size: 12.5px; letter-spacing: 0.5px;
+      font-weight: 600; box-shadow: 0 0 15px rgba(255, 142, 83, 0.2);
+    }
+    
+    @keyframes gateFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<!-- 1. BIRTHDAY TERMINAL BOOT -->
+<div id="boot-screen">
+  <div class="boot-terminal">
+    <div class="boot-bar"><span class="boot-dot"></span><span class="boot-dot"></span><span class="boot-dot"></span></div>
+    <div class="boot-content">
+      <span id="boot-text"></span><span class="boot-cursor"></span>
+    </div>
+  </div>
+</div>
+
+<!-- 2. LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-card" id="lock-card">
+    <div class="gate-orbit"><div class="gate-core">🎂</div></div>
+    <div class="gate-status" id="gate-status">BIRTHDAY ARCHIVE // LOCKED</div>
+    <div class="lang-id">
+      <h2>Gerbang Memori Ulang Tahun</h2>
+      <p>Arsip kecil ini menantimu di balik gerbang. Masukkan tanggal dan bulan lahir yang tepat untuk membuka koleksi kenangan, doa, dan cerita untuk Amang Marudut.</p>
+      <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;text-align:left;text-transform:uppercase;letter-spacing:1px;">Pilih Tanggal</div>
+    </div>
+    <div class="lang-en">
+      <h2>Enter the Birthday Gate</h2>
+      <p>A small birthday archive is waiting beyond this gate. Choose the correct day and month to unlock memories, prayers, and stories for Amang Marudut.</p>
+      <div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;text-align:left;text-transform:uppercase;letter-spacing:1px;">Select Day</div>
+    </div>
+    
+    <div class="chip-grid" id="date-grid"></div>
+    
+    <div class="lang-id"><div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;text-align:left;text-transform:uppercase;letter-spacing:1px;">Pilih Bulan</div></div>
+    <div class="lang-en"><div style="font-size:12px;color:var(--text-sub);margin-bottom:8px;text-align:left;text-transform:uppercase;letter-spacing:1px;">Select Month</div></div>
+    
+    <div class="chip-grid" id="month-grid"></div>
+
+    <div class="gate-progress"><span id="gate-progress"></span></div>
+
+    <button class="unlock-btn" onclick="verifyPassword()">
+      <span class="lang-id">Buka Gerbang Memori ✨</span>
+      <span class="lang-en">Open the Memory Gate ✨</span>
+    </button>
+    <div id="error-msg" style="color:#ef4444;font-size:13px;margin-top:15px;min-height:20px;font-weight:500;"></div>
+  </div>
+</div>
+
+<!-- 3. MAIN DASHBOARD -->
+<div class="container" id="main-container" style="display: none;">
+  <div class="header">
+    <h1 class="lang-id">Selamat Ulang Tahun, Amang Pendeta GT 🎂</h1>
+    <h1 class="lang-en">Happy Birthday, Amang Pendeta GT 🎂</h1>
+    
+    <h2 class="lang-id">Sebuah arsip dari Kuala Lumpur merayakan pardonganan, iman, jarak, dan babak baru dalam perjalananmu.</h2>
+    <h2 class="lang-en">An archive from Kuala Lumpur celebrating friendship, faith, distance, and the next chapter of your journey.</h2>
+  </div>
+
+  <div class="verse-card" style="margin-bottom:24px;">
+    <strong class="lang-id">Salam Ulang Tahun dari Kuala Lumpur 🇲🇾</strong>
+    <strong class="lang-en">Birthday Words from Kuala Lumpur 🇲🇾</strong>
+    <p style="margin-top:10px;">
+      <b>Selamat hari jadi</b> <span class="lang-id">Ucapan yang paling akrab di telinga masyarakat Malaysia.</span><span class="lang-en">The most natural way to say Happy Birthday in Malaysia.</span><br>
+      <b>Semoga dipanjangkan umur dan dimurahkan rezeki</b> <span class="lang-id">Doa hangat agar diberkahi usia dan rezeki melimpah.</span><span class="lang-en">A warm wish for long life and abundant blessings.</span><br>
+      <b>Tahniah!</b> <span class="lang-id">Selamat! Berguna untuk merayakan pencapaian barumu.</span><span class="lang-en">Congratulations! Useful when celebrating your new milestones.</span>
+    </p>
+  </div>
+  
+  <!-- PHOTO FRAMES -->
+  <div class="photo-frames-container">
+    <h3 class="lang-id" style="text-align:center; color: var(--accent-gold); margin-bottom: 20px; font-family: 'Playfair Display', serif;">Bingkai Kenangan 📸</h3>
+    <h3 class="lang-en" style="text-align:center; color: var(--accent-gold); margin-bottom: 20px; font-family: 'Playfair Display', serif;">Frames of Memory 📸</h3>
+    
+    <div class="frames-grid">
+      <!-- Frame 1 -->
+      <div class="frame-box">
+         <div class="frame-img" style="background-image: url('foto-udut1.jpeg');"></div>
+        <div class="frame-placeholder"><span class="lang-id">Sisipkan<br>Foto 1</span><span class="lang-en">Insert<br>Photo 1</span></div>
+      </div>
+      
+      <!-- Frame 2 -->
+      <div class="frame-box">
+           <div class="frame-img" style="background-image: url('foto-udut2.jpeg');"></div>
+        <div class="frame-placeholder"><span class="lang-id">Sisipkan<br>Foto 2</span><span class="lang-en">Insert<br>Photo 2</span></div>
+      </div>
+      
+      <!-- Frame 3 -->
+      <div class="frame-box">
+          <div class="frame-img" style="background-image: url('foto-udut3.jpeg');"></div>
+        <div class="frame-placeholder"><span class="lang-id">Sisipkan<br>Foto 3</span><span class="lang-en">Insert<br>Photo 3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group" id="btn-group-list">
+    <!-- Buttons generated via JS -->
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer" style="display:none;">
+  <div class="footer-toggles">
+    <button onclick="toggleTheme()">🌓 <span class="lang-id">Ubah Suasana</span><span class="lang-en">Change Vibe</span></button>
+    <button onclick="toggleLang()" id="lang-btn">🇬🇧 EN</button>
+  </div>
+  <div style="margin-top:25px;">
+    <strong style="color:var(--accent-gold);font-size:16px;font-family:'Playfair Display',serif;">
+      From Glendito Rayadi S., S.T., (Soon to be S.H.)
+    </strong><br>
+    <span class="lang-id" style="font-size:12.5px;opacity:.8;display:block;margin-top:6px;">Saat ini menjejakkan kaki di sekitar Kuala Lumpur, Malaysia, menanti saat yang tepat untuk kembali ke Jakarta, dan berharap suatu hari bisa kembali bertemu, berbagi cerita, dan bercanda gurau lagi.</span>
+    <span class="lang-en" style="font-size:12.5px;opacity:.8;display:block;margin-top:6px;">Currently setting foot somewhere around Kuala Lumpur, Malaysia, waiting for the right time to return to Jakarta, and hoping to meet, share stories, and laugh together again someday.</span>
+    
+    <div class="update-stamp">
+      Halaman Web ini dimutakhirkan pada 13 Oktober 2026 Pukul 23.50 GMT+8 (Malaysian Time)
+    </div>
+  </div>
+</footer>
+
+<!-- 4. POPUP MODAL -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2 id="popup-title">Judul</h2>
+    <div class="popup-text-container"><span id="popup-text"></span><span id="cursor" class="cursor"></span></div>
+    
+    <button id="skip-btn" class="skip-btn" onclick="skipTyping()">
+      <span class="lang-id">[Tampilkan Teks Sepenuhnya]</span>
+      <span class="lang-en">[Show Full Text]</span>
+    </button>
+
+    <!-- Quiz Box (Dynamic) -->
+    <div id="quiz-container" class="quiz-box">
+      <b id="quiz-title-text" style="color: var(--accent-gold); font-size: 15px;">Babak 1</b><br>
+      <span id="quiz-hint-text" style="font-size: 13px; color: var(--text-sub); display: block; margin-top: 4px;">Hint</span>
+      <input type="text" id="answer-input" placeholder="..." onkeypress="if(event.key==='Enter') checkAnswer()">
+      <button onclick="checkAnswer()" id="quiz-btn">Kirim Jawaban 🛰️</button>
+    </div>
+
+    <!-- Flashcard Box (Dynamic) -->
+    <div id="dynamic-flashcard" class="dynamic-flashcard-container">
+      <div style="text-align: center; margin-bottom: 15px; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; font-size: 13px;" id="flash-title">Flashcard Archive</div>
+      <div class="flashcard" onclick="flipFlashcard()">
+        <div class="flashcard-inner">
+          <div class="flash-face">
+            <strong id="flash-front">Question</strong>
+          </div>
+          <div class="flash-face flash-back">
+            <strong id="flash-back" style="color: var(--text-main); font-size: 16px;">Answer</strong>
+          </div>
+        </div>
+      </div>
+      <div class="flash-controls">
+        <button onclick="prevFlash(event)">◀ Prev</button>
+        <button onclick="nextFlash(event)">Next ▶</button>
+      </div>
+    </div>
+    
+    <!-- Media Box untuk Pesan 10 -->
+    <div id="media-container" class="media-container">
+      <button class="yt-btn" onclick="window.open('https://www.youtube.com/watch?v=4tnQCb3n-f8&list=RD4tnQCb3n-f8&start_radio=1', '_blank')">▶️ Play Terima Kasih Tuhan (Symphony Worship)</button>
+      <div class="lyrics-box lang-id">
+        "Terima kasih Tuhan
+        Untuk kasih setia Mu
+        Yang ku alami
+        Dalam hidupku
+        
+        Terima kasih Yesus
+        Untuk kebaikan Mu
+        Sepanjang hidupku
+        
+        Terima kasih Yesusku
+        Buat anug’rah yang Kau b’ri
+        Sebab hari ini
+        Tuhan adakan
+        Syukur bagi Mu"
+      </div>
+      <div class="lyrics-box lang-en" style="display:none;">
+        "Thank You Jesus Thank You Lord
+        For the love You give to me
+        For this day You’ve made
+        with Your amazing grace,
+        Lord I lift my praise"
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let isEnglish = false;
+  
+  function toggleLang() {
+    isEnglish = !isEnglish;
+    if(isEnglish) {
+      document.body.classList.add("en-mode");
+      document.getElementById("lang-btn").innerText = "🇮🇩 ID";
+    } else {
+      document.body.classList.remove("en-mode");
+      document.getElementById("lang-btn").innerText = "🇬🇧 EN";
+    }
+    renderButtons();
+  }
+
+  // ==========================================
+  // BIRTHDAY ARCHIVE CONTENT (ID & EN)
+  // ==========================================
+  const messages = {
+    1: {
+      title_id: "01. Pos Pemeriksaan Memori 🗝️",
+      title_en: "01. The Memory Checkpoint 🗝️",
+      text_id: `Sebelum arsip ulang tahun ini membawamu menyelami kenangan yang lebih dalam, ada satu pos pemeriksaan kecil yang harus kau lewati.
+
+Anggap saja ini bukan sekadar ujian, melainkan sebuah napak tilas kecil pengingat manis bahwa perkawanan kita dibangun dari tumpukan detail. Tempat-tempat yang kita singgahi, jalanan berdebu yang kita lewati, lelucon receh yang terus diulang, dan percakapan-percakapan yang tanpa disadari membentuk siapa kita hari ini.
+
+Jadi, wahai Sang Surveyor, Amang Pendeta GT, atau sederhananya pria yang selalu punya cara untuk bertahan hidup di setiap babak baru. Buktikan bahwa arsip ingatan internalmu masih berfungsi dengan baik.
+
+Ada tiga pertanyaan kecil yang berdiri di antara dirimu dan keseluruhan perjalanan arsip ini. Santai saja, tak ada tekanan. Kau tak butuh alat ukur teodolit atau total station di sini. Kau hanya butuh ingatan, insting, dan sedikit keyakinan.
+
+Dan jika kau salah menjawab? Tenang saja. Bahkan peta geomatika yang paling akurat pun masih memiliki margin of error manusiawi. Mari kita mulai.`,
+      text_en: `Before this birthday archive lets you dive deeper into the memories, there is one little checkpoint you must pass.
+
+Think of it less like a stressful exam and more like a playful trip down memory lane a sweet reminder that our friendship is built from details. The places we visited, the dusty roads we traveled, the ridiculous jokes we constantly repeated, and the conversations that effortlessly shaped who we are today.
+
+So, O Great Surveyor, Amang Pendeta GT, or simply the guy who always finds a way to survive every new chapter. Prove that your internal memory archive is still functioning properly.
+
+Three small questions stand between you and the rest of this journey. Relax, no pressure. You don't need a theodolite or total station here. You only need memory, instinct, and a little faith.
+
+And if you get something wrong? Don't worry. Even the most accurate geomatics map still has a human margin of error. Let's begin.`
+    },
+    2: {
+      title_id: "02. Babak Balam (Bandar Lampung) 🏍️",
+      title_en: "02. The Balam Chapter 🏍️",
+      text_id: `Beberapa kenangan menjadi sangat bermakna karena ada kejadian luar biasa di dalamnya. Namun, ada juga kenangan yang bermakna murni karena seseorang hadir tepat ketika ia sangat dibutuhkan. Babak Balam jatuh pada kategori kedua.
+
+Masih segar dalam ingatanku momen pahit ketika aku kehilangan motor di Balam. Di saat roda mobilitasku seakan berhenti berputar dan hari terasa kelabu, kau tidak sekadar bersimpati dari jauh. Kau hadir secara nyata, merelakan waktumu, dan secara sukarela menobatkan dirimu sebagai "ojek pribadiku". 
+
+Kau memboncengku menembus angin menuju ITERA, lalu mengantarkanku hingga ke UNILA. Kau ingat saat kita menyusup ke UKMK UNILA? Kegilaan masa muda yang dirajut dengan sedikit keberanian konyol. Semua terekam jelas dalam bingkai kebersamaan kita di PMK ITERA. Kita bukan sekadar satu organisasi, kita adalah dua orang kawan yang saling menopang di tengah krisis.
+
+Bertahun-tahun dari sekarang, aku mungkin akan lupa nama jalan atau rute pasti yang kita lewati di Balam. Tapi percayalah, aku tidak akan pernah lupa rasanya memiliki seorang kawan yang siap diandalkan saat dunia sedang tidak berpihak. Kebaikanmu di masa itu adalah jangkar yang takkan lekang oleh waktu.`,
+      text_en: `Some memories become deeply meaningful because something extraordinary happened. But there are also memories that matter simply because someone showed up right when they were needed. The Balam chapter belongs strictly to the second category.
+
+The bitter memory of losing my motorcycle in Balam is still fresh in my mind. When the wheels of my mobility seemed to stop turning and the days felt grey, you didn't just sympathize from afar. You showed up, sacrificed your time, and voluntarily became my "personal driver."
+
+You gave me rides through the wind to ITERA, and escorted me all the way to UNILA. Do you remember when we sneaked into UKMK UNILA? The sheer madness of youth woven with a bit of silly courage. Everything is recorded clearly in the frame of our time together at PMK ITERA. We were more than just members of an organization; we were two friends holding each other up during a crisis.
+
+Years from now, I might forget the exact names of the streets or routes we took in Balam. But trust me, I will never forget the feeling of having a friend who was ready to be relied upon when the world wasn't on my side. Your kindness back then is an anchor that time cannot erode.`
+    },
+    3: {
+      title_id: "03. Iman & Perkawanan (Amang Pendeta GT) ⛪",
+      title_en: "03. Faith & Fellowship (Amang Pendeta GT) ⛪",
+      text_id: `Beberapa perkawanan dihubungkan oleh hobi yang sama. Beberapa lainnya diikat oleh kehidupan kampus. Namun pertemanan kita menemukan lapisan yang lebih dalam melalui iman, persekutuan, pelayanan, dan percakapan-percakapan malam yang sering kali jauh lebih berbobot dari perkiraan kita.
+
+"Amang Pendeta GT". Begitulah aku dengan bangga dan penuh canda menobatkamu. Kerohanianmu yang menyejukkan, pembawaanmu yang tenang, dan cara pandangmu yang sering kali begitu religius membuat gelar itu terasa sangat pas di pundakmu. Dari momen PMK di ITERA hingga ruang-ruang persekutuan di Bandar Lampung, aku melihat sisi lain dari dirimu, seorang pria muda yang mungkin belum memiliki semua jawaban hidup, tapi tetap teguh melangkah dengan keyakinan.
+
+Memiliki iman tidak berarti peta hidupmu sudah tergambar sempurna tanpa cacat. Terkadang, iman justru berarti keberanian untuk terus mempercayai Tuhan, bahkan ketika koordinat tujuan masih buram. 
+
+Di hari ulang tahunmu ini, Amang, aku berharap kau terus menjaga api kerohanian itu. Biarlah Tuhan terus bekerja melalui rencana yang belum selesai, jalan memutar yang tak terduga, dan musim-musim yang mungkin belum bisa kau pahami saat ini. Teruslah melangkah, teruslah melayani.`,
+      text_en: `Some friendships are connected by shared hobbies. Some are tied by campus life. But our fellowship found a much deeper layer through faith, ministry, and late-night conversations that were often much heavier than we initially intended.
+
+"Amang Pendeta GT". That is the title I proudly and jokingly bestowed upon you. Your soothing spirituality, your calm demeanor, and your highly religious perspective made that title fit perfectly on your shoulders. From the PMK moments at ITERA to the fellowship spaces in Bandar Lampung, I saw another side of you, a young man who might not have all the answers to life yet, but continues to step forward with unwavering conviction.
+
+Having faith does not mean the map of your life is drawn flawlessly. Sometimes, faith means having the courage to continue trusting God even when the destination coordinates are blurry.
+
+On this birthday, Amang, I hope you continue to keep that spiritual fire burning. Let God continue to work through unfinished plans, unexpected detours, and seasons you might not fully understand right now. Keep walking, keep serving.`
+    },
+    4: {
+      title_id: "04. Babak yang Kandas 💔",
+      title_en: "04. The Chapter That Didn't Work Out 💔",
+      text_id: `Tidak semua cerita dalam hidup kita ditakdirkan untuk memiliki sekuel. Beberapa babak memang ditulis hanya untuk menjadi sebuah pelajaran berharga.
+
+Seperti kisahmu yang kandas dengan warga lokal berinisial 'T' itu. 
+
+Bukan sekadar kandas, tapi mungkin semesta sedang meracik skenario yang lebih indah. Ada orang-orang yang hanya mampir untuk memberi warna, meninggalkan jejak yang cukup dalam, lalu pada akhirnya berlalu menjadi bagian dari kanvas sejarah, alih-alih masa depan. Dan tahukah kau? Itu sama sekali tidak mendefinisikan babak tersebut sebagai sebuah kegagalan. Terkadang, Tuhan menutup sebuah pintu yang mati-matian coba kita dobrak, karena Dia tahu ada ruangan yang lebih baik menanti di depan sana.
+
+Apa pun alasan kandasnya hubungan itu, entah karena ekspektasi yang bersilangan atau waktu yang belum berpihak, aku berharap versi terbaik dari dirimu di masa depan tidak dibangun di atas dasar rasa pembuktian kepada masa lalu.
+
+Kau tidak perlu menjadi lebih sukses hanya agar seseorang menyesal. Jadilah lebih baik karena kau sedang bertumbuh menjadi pria yang Tuhan panggil. Kelak, semoga cinta yang datang padamu adalah cinta yang mendamaikan, bukan membingungkan. Cinta yang cukup dewasa untuk berjalan beriringan saat badai datang.`,
+      text_en: `Not every story in our lives is destined to have a sequel. Some chapters are written simply to serve as valuable lessons.
+
+Just like your chapter that ended with a certain local resident initialized 'T'.
+
+It didn't just fail; perhaps the universe is brewing a much more beautiful scenario. There are people who just stop by to add color, leave a deep mark, and ultimately pass by to become part of the canvas of history, rather than the future. And you know what? That does not define the chapter as a failure at all. Sometimes, God closes a door we desperately try to break down because He knows a better room is waiting ahead.
+
+Whatever the reason that relationship ended, whether it was crossed expectations or timing that wasn't on your side, I hope the best version of your future self isn't built on proving something to the past.
+
+You don't need to become more successful just to make someone regret leaving. Become better because you are growing into the man God called you to be. Someday, I hope the love that comes your way is a peaceful one, not a confusing one. A love mature enough to walk beside you when the storm hits.`
+    },
+    5: {
+      title_id: "05. Si Marpaung dari Batam yang Dale 🦇",
+      title_en: "05. The Dale Marpaung from Batam 🦇",
+      text_id: `Mari kita bicara tentang salah satu paradoks paling ironis sekaligus paling lucu dalam sejarah pertemanan kita.
+
+Kau adalah seorang Marpaung sejati. Membawa marga besar yang sarat akan warisan dan harga diri suku Batak. Namun di saat yang sama, kau adalah warga Batam tulen. Dan perpaduan keduanya menghasilkan sebuah anomali komedi, kau gak bisa berbahasa Batak dengan lancar WKWKWWKKW.
+
+Setiap kali kau mencoba mengucapkan bahasa leluhurmu, rasanya seperti sedang mendengar sandi morse yang dienkripsi secara acak. Sungguh, leluhur mungkin tersenyum geli dari atas sana melihat si Marpaung yang dale ini.
+
+Namun di balik candaan itu, ada sebuah esensi yang jauh lebih besar. Warisan sejati seorang pria Batak tidak hanya diukur dari kefasihannya melafalkan kosakata tradisional. Warisan itu terlihat dari bagaimana ia memperlakukan orang lain, bagaimana ia memikul tanggung jawab, bagaimana ia setia pada kawan-kawan, dan bagaimana ia mempertahankan kerendahan hati saat kesuksesan mulai menghampiri.
+
+Jadi, tidak apa-apa jika bahasa Batakmu masih terdengar asing. Selama karaktermu fasih dalam bahasa kebaikan, kesetiaan, dan keberanian, kau tetaplah seorang Marpaung yang membanggakan.`,
+      text_en: `Let's talk about one of the most ironic and hilarious paradoxes in the history of our friendship.
+
+You are a true Marpaung. Carrying a great surname loaded with the heritage and pride of the Batak people. But at the same time, you are a pure Batam resident. And the combination of the two results in a comedic anomaly, you cannot speak Batak fluently at all.
+
+Every time you try to utter the language of your ancestors, it feels like listening to randomly encrypted Morse code. Truly, the ancestors are probably smiling in amusement from up there looking at this 'dale' Marpaung.
+
+But behind the jokes, there is a much greater essence. The true heritage of a Batak man is not merely measured by his fluency in traditional vocabulary. That heritage is seen in how he treats others, how he shoulders responsibility, how loyal he is to friends, and how he maintains humility when success begins to approach.
+
+So, it's okay if your Batak still sounds foreign. As long as your character remains fluent in the language of kindness, loyalty, and courage, you are still a Marpaung to be proud of.`
+    },
+    6: {
+      title_id: "06. Poda Perkawanan & Kehidupan 📜",
+      title_en: "06. Poda for Friendship & Survival 📜",
+      text_id: `Di ulang tahunmu kali ini, mari kita sejenak menyingkirkan poda-poda kaku ala tetua adat. Mengingat aku sedang merantau di Kuala Lumpur, mari kita padukan kebijaksanaan lintas negara, Poda tentang bagaimana bertahan hidup dan menjaga pardonganan di kerasnya dunia orang dewasa.
+
+Ada pepatah Melayu Malaysia yang sangat puitis: "Hujan emas di negeri orang, hujan batu di negeri sendiri, lebih baik di negeri sendiri." 
+Namun dalam konteks pardonganan kita, "negeri" itu bukanlah sebuah lokasi geografis, melainkan orang-orang yang membuat kita merasa tenang dan berpulang. Ke mana pun jejakmu menapak, sekeras apa pun "hujan batu" masalah yang menimpamu, seorang kawan sejati akan selalu menjadi tempatmu berteduh.
+
+Lalu ada Poda Batak tentang pardonganan: 
+"Tinampul bulung sihupi, pinarsaong bulung siata. Unang sumurut pardonganan, sai lam tu toguna ma." 
+(Janganlah mundur ikatan perkawanan, melainkan semakin teguhlah hendaknya).
+
+Dunia pasca-kampus adalah rimba yang tak kenal ampun. Berapa banyak pun proyek survei yang kau menangkan, tetaplah membumi. Jangan ukur kesuksesanmu dari seberapa cepat orang lain tertinggal di belakang, tapi ukurlah dari seberapa banyak orang yang merasa terbantu dan dihangatkan oleh kehadiranmu.
+
+Bertahanlah, tumbuhlah dengan sabar, dan jangan lupa untuk sesekali menertawakan kerasnya hidup bersama kawan-kawanmu.`,
+      text_en: `For your birthday this time, let's temporarily set aside the stiff 'poda' (advice) of traditional elders. Considering I am currently living in Kuala Lumpur, let's blend cross-border wisdom, a Poda on how to survive and maintain friendship in the harsh adult world.
+
+There is a very poetic Malay proverb: "It may rain gold in another country, and rain stones in your own, but your own country is always better."
+However, in the context of our friendship, that "country" is not a geographical location, but rather the people who make you feel at peace and at home. No matter where your feet step, no matter how hard the "rain of stones" hits you, a true friend will always be your shelter.
+
+Then there is the Batak Poda about friendship:
+"Tinampul bulung sihupi, pinarsaong bulung siata. Unang sumurut pardonganan, sai lam tu toguna ma." 
+(Let friendship not retreat, but let it grow ever stronger).
+
+The post-campus world is a ruthless jungle. No matter how many surveying projects you win, stay grounded. Do not measure your success by how quickly others fall behind, but measure it by how many people are helped and warmed by your presence.
+
+Endure, grow patiently, and don't forget to occasionally laugh at the absurdity of life with your friends.`
+    },
+    7: {
+      title_id: "07. Harmoni 2023 yang Tertinggal 🎸",
+      title_en: "07. The 2023 Harmony We Left Behind 🎸",
+      text_id: `Ada suara-suara yang menghilang seketika saat musik berhenti, dan ada suara-suara yang entah bagaimana terus menggema dalam ingatan selama bertahun-tahun.
+
+Mari kita putar waktu mundur ke tahun 2023. Saat itulah awal mula kita benar-benar menjadi dekat. Bukan karena obrolan berat atau proyek besar, melainkan karena dentingan senar dan ketukan nada saat jamming musik bareng Marlina dan kawan-kawan.
+
+Momen-momen itu tidak pernah menuntut kesempurnaan. Kita tertawa di sela-sela lagu yang gagal, merangkai aransemen secara acak, dan menyadari bahwa kebersamaan itu jauh lebih indah daripada harmoni nada yang presisi.
+
+Hidup memang punya cara yang aneh untuk memisahkan orang. Kota yang berbeda, jadwal yang berbenturan, dan tanggung jawab yang semakin berat membuat kita kini terpisah oleh jarak. Namun, jarak tidak serta merta menghapus harmoni yang pernah kita ciptakan. Lagu kebersamaan itu kini menjadi semacam kaset usang yang kapan saja bisa kita putar kembali di keheningan pikiran.
+
+Semoga suatu hari nanti, kita bisa kembali duduk bersama, mengangkat instrumen, dan menyadari bahwa ritme perkawanan itu tidak pernah benar-benar hilang.`,
+      text_en: `There are sounds that disappear the moment the music stops, and there are sounds that somehow continue to echo in our memories for years.
+
+Let's rewind the clock to 2023. That was the beginning of us truly getting close. Not because of heavy conversations or massive projects, but purely because of the strumming of strings and the beat of notes during our music jamming sessions with Marlina and friends.
+
+Those moments never demanded perfection. We laughed between ruined songs, arranged music randomly, and realized that simply being together was far more beautiful than hitting the precise harmonic notes.
+
+Life has a strange way of separating people. Different cities, clashing schedules, and heavier responsibilities mean we are now separated by distance. However, distance does not automatically erase the harmony we once created. That song of togetherness has now become an old mixtape we can replay in the quietness of our minds anytime.
+
+I hope that one day, we can sit down together again, pick up our instruments, and realize that the rhythm of our friendship never truly faded away.`
+    },
+    8: {
+      title_id: "08. Horizon Baru Sang Surveyor ✈️",
+      title_en: "08. The Surveyor's New Horizon ✈️",
+      text_id: `Sepatumu mungkin kini sudah lebih mengenali geografi Indonesia dibandingkan kebanyakan orang. 
+
+Tahun lalu, aku masih ingat betul momen saat aku mengantarmu ke Bandara Soekarno Hatta. Kepergianmu ke Kalimantan saat itu adalah langkah berani menuju dunia profesional yang sesungguhnya. Dan hari ini, kau berada di Padang, Sumatera Barat. Menjadi seorang surveyor yang memetakan bumi, menghitung batas wilayah, dan menaklukkan kontur alam.
+
+Pekerjaanmu menuntut ketelitian tingkat dewa. Namun, karir yang hebat bukan hanya soal kemampuan teknis membaca total station. Ia juga tentang ketahanan mental (endurance).
+
+Akan ada proyek yang menguras tenaga, cuaca lapangan yang tak bersahabat, dan hari-hari di mana kau mempertanyakan jalan hidupmu. Tetaplah melangkah. Biarkan setiap tantangan di lapangan menajamkan instingmu. Biarkan tempat-tempat baru yang kau pijak membuat pandanganmu terhadap dunia semakin luas.
+
+Semoga Tuhan senantiasa melimpahkan hikmat di atas keahlian teknismu, kesabaran melampaui deadline-mu, dan keberanian di luar zona nyamanmu. Terbanglah lebih jauh, Amang Surveyor.`,
+      text_en: `Your boots probably know the geography of Indonesia much better than most people do right now.
+
+Last year, I clearly remember the moment I drove you to Soekarno Hatta Airport. Your departure to Kalimantan back then was a brave step into the real professional world. And today, you are stationed in Padang, West Sumatra. Working as a surveyor who maps the earth, calculates boundaries, and conquers natural contours.
+
+Your job demands god-level precision. However, a great career is not just about technical skills in reading a total station. It's also about mental endurance.
+
+There will be projects that drain your energy, unforgiving field weather, and days when you question your life path. Keep moving forward anyway. Let every challenge in the field sharpen your instincts. Let every new place you step on broaden your view of the world.
+
+May God always pour wisdom over your technical expertise, patience beyond your deadlines, and courage outside your comfort zone. Fly further, Amang Surveyor.`
+    },
+    9: {
+      title_id: "09. Kuala Lumpur, Padang & Jarak di Antaranya 🌏",
+      title_en: "09. Kuala Lumpur, Padang & The Distance Between 🌏",
+      text_id: `Kuala Lumpur hari ini menjadi saksi dari tulisan ini. Sebuah kota yang untuk sementara waktu menjadi pelabuhan persinggahanku, sementara kau sedang sibuk mengukir namamu di Padang.
+
+Jarak membentang luas di antara kita. Kita kini tahu bahwa jarak bukan hanya soal kilometer di peta, melainkan juga tentang zona waktu, terminal bandara, kesibukan masing-masing, dan kadang-kadang keheningan di ruang obrolan. Itulah harga dari sebuah kedewasaan.
+
+Namun, ketahuilah satu hal bahwa aku selalu mengingat kebaikanmu. Jarak tidak membuatku lupa. 
+
+Mimpi besarku adalah suatu hari nanti langkah ini akan membawaku kembali ke Jakarta. Dan entah bagaimana, aku berharap takdir akan memberi kita ruang untuk kembali bertemu. Duduk santai menyeduh kopi, bertukar cerita, berbagi pengalaman, dan sekadar bercanda gurau menertawakan kekonyolan hidup seperti dulu lagi. Doakan saja!
+
+Semoga ulang tahun ini menjadi pengingat bahwa jarak fisik tidak akan pernah mampu memutus ikatan perkawanan yang sejati. Simpan baik-baik koordinat kenangan kita, dan sisakan sedikit ruang di kalendermu untuk reuni kita kelak.`,
+      text_en: `Kuala Lumpur stands as a witness to this writing today. A city that temporarily serves as my harbor, while you are busy carving your name in Padang.
+
+A vast distance stretches between us. We now know that distance is not just about kilometers on a map; it's about time zones, airport terminals, individual busyness, and sometimes the silence in chat rooms. That is the cost of adulthood.
+
+But know one thing. I always remember your kindness. Distance hasn't made me forget.
+
+My big dream is that one day my steps will lead me back to Jakarta. And somehow, I hope fate gives us the space to meet again. Sitting back brewing coffee, sharing stories and experiences, and just joking around laughing at the absurdities of life like we used to. Just pray for it!
+
+May this birthday serve as a reminder that physical distance can never sever the bonds of true friendship. Keep the coordinates of our memories safe, and leave a little room in your calendar for our future reunion.`
+    },
+    10: {
+      title_id: "10. Berkat Alkitab & Kesetiaan Tuhan 🌟",
+      title_en: "10. Biblical Blessing & God's Faithfulness 🌟",
+      is_chat: true,
+      chat_data_id: [
+        { sender: 'me', text: "Selamat Ulang Tahun, Amang Marudut Marpaung! 🎉" },
+        { sender: 'me', text: "Hari ini bukan sekadar pergantian angka usia, melainkan monumen perayaan atas kesetiaan Tuhan yang terus menopang langkahmu." },
+        { sender: 'me', text: "Btw, buat penutup arsip ini, biarlah ayat-ayat ini jadi tiang penopangmu ya:" },
+        { sender: 'me', text: "📖 <i>'Serahkanlah perbuatanmu kepada TUHAN, maka terlaksanalah segala rencanamu.'</i> (Amsal 16:3)" },
+        { sender: 'me', text: "📖 <i>'TUHAN akan menjaga keluar masukmu, dari sekarang sampai selama-lamanya.'</i> (Mazmur 121:8)" },
+        { sender: 'me', text: "Dan yang paling penting tentang pardonganan kita:" },
+        { sender: 'me', text: "📖 <i>'Seorang sahabat menaruh kasih setiap waktu, dan menjadi seorang saudara dalam kesukaran.'</i> (Amsal 17:17)" },
+        { sender: 'me', text: "Semoga tahun yang baru ini bawa hikmat yang lebih dalam, keberanian ekstra, dan damai sejahtera. Sehat-sehat di sana, Amang! Lindungi dirimu dari marabahaya lapangan. Sampai jumpa lagi! 🚀" }
+      ],
+      chat_data_en: [
+        { sender: 'me', text: "Happy Birthday, Amang Marudut Marpaung! 🎉" },
+        { sender: 'me', text: "Today isn't just about turning a year older, but a monument celebrating God's faithfulness that has sustained your steps." },
+        { sender: 'me', text: "Btw, to wrap up this archive, let these verses be your pillar of strength:" },
+        { sender: 'me', text: "📖 <i>'Commit to the LORD whatever you do, and he will establish your plans.'</i> (Proverbs 16:3)" },
+        { sender: 'me', text: "📖 <i>'The LORD will watch over your coming and going both now and forevermore.'</i> (Psalm 121:8)" },
+        { sender: 'me', text: "And most importantly about our friendship:" },
+        { sender: 'me', text: "📖 <i>'A friend loves at all times, and a brother is born for a time of adversity.'</i> (Proverbs 17:17)" },
+        { sender: 'me', text: "May this new year bring deeper wisdom, extra courage, and absolute peace. Stay healthy out there, Amang! Protect yourself in the field. See you when I see you! 🚀" }
+      ]
+    }
+  };
+
+  const btnKeys = [
+    "01. Pos Pemeriksaan Memori 🗝️",
+    "02. Babak Balam (Bandar Lampung) 🏍️",
+    "03. Iman & Perkawanan (Amang Pendeta GT) ⛪",
+    "04. Babak yang Kandas 💔",
+    "05. Si Marpaung dari Batam yang Dale 🦇",
+    "06. Poda Perkawanan & Kehidupan 📜",
+    "07. Harmoni 2023 yang Tertinggal 🎸",
+    "08. Horizon Baru Sang Surveyor ✈️",
+    "09. Kuala Lumpur, Padang & Jarak di Antaranya 🌏",
+    "10. Berkat Alkitab & Kesetiaan Tuhan 🌟"
+  ];
+  
+  const btnKeysEn = [
+    "01. The Memory Checkpoint 🗝️",
+    "02. The Balam Chapter 🏍️",
+    "03. Faith & Fellowship (Amang Pendeta GT) ⛪",
+    "04. The Chapter That Didn't Work Out 💔",
+    "05. The Dale Marpaung from Batam 🦇",
+    "06. Poda for Friendship & Survival 📜",
+    "07. The 2023 Harmony We Left Behind 🎸",
+    "08. The Surveyor's New Horizon ✈️",
+    "09. Kuala Lumpur, Padang & The Distance Between 🌏",
+    "10. Biblical Blessing & God's Faithfulness 🌟"
+  ];
+
+  function renderButtons() {
+    const list = document.getElementById("btn-group-list");
+    list.innerHTML = "";
+    for(let i=1; i<=10; i++) {
+      let isUnlocked = (i <= currentOpen);
+      let btnName = isEnglish ? btnKeysEn[i-1] : btnKeys[i-1];
+      let btn = document.createElement("button");
+      btn.className = "msg-button";
+      btn.id = `btn${i}`;
+      btn.disabled = !isUnlocked;
+      btn.innerHTML = `${btnName} <span>${isUnlocked ? '▶' : '🔒'}</span>`;
+      btn.onclick = () => showPopup(i);
+      list.appendChild(btn);
+    }
+  }
+
+  // ==========================================
+  // TERMUX BOOT LOGIC
+  // ==========================================
+  const bootLines = [
+    "> Initializing birthday_archive.sh...",
+    "> Loading memories from 2023 → 2026...",
+    "> Mapping friendship coordinates in Balam...",
+    "> Checking Batam Marpaung language paradox...",
+    "> Loading faith, PMK ITERA & UKMK UNILA protocols...",
+    "> Synchronizing Kuala Lumpur ↔ Padang...",
+    "> Executing AMANG_MARUDUT_BIRTHDAY_v10.exe...",
+    "> 10 memory gates detected. Archive ready."
+  ];
+
+  let bootLine = 0; let bootChar = 0; let bootFinished = false; let bootTimer = null;
+
+  function finishBoot() {
+    if (bootFinished) return;
+    bootFinished = true;
+    if (bootTimer) clearTimeout(bootTimer);
+    document.getElementById("boot-screen").classList.add("hide");
+    document.getElementById("lock-screen").style.display = "flex";
+  }
+
+  function typeBootText() {
+    if (bootFinished) return;
+    const bootText = document.getElementById("boot-text");
+    if (bootLine >= bootLines.length) {
+      bootTimer = setTimeout(finishBoot, 800);
+      return;
+    }
+    const line = bootLines[bootLine];
+    if (bootChar < line.length) {
+      bootText.textContent += line.charAt(bootChar++);
+      bootTimer = setTimeout(typeBootText, 25);
+    } else {
+      bootText.textContent += "\\n";
+      bootLine++; bootChar = 0;
+      bootTimer = setTimeout(typeBootText, 300);
+    }
+  }
+
+  function initParticles() {
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    function resize() {
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      particles = Array.from({length: 40}, () => ({
+        x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+        r: Math.random()*2+0.5, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5
+      }));
+    }
+    window.addEventListener('resize', resize); resize();
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1;
+        if(p.y<0||p.y>canvas.height) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = "rgba(56, 189, 248, 0.4)"; ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  window.onload = () => {
+    initLockScreen();
+    initParticles();
+    renderButtons();
+    setTimeout(typeBootText, 400);
+  };
+
+  // ==========================================
+  // LOCK SCREEN LOGIC (14 Oktober)
+  // ==========================================
+  let selDate = null; let selMonth = null;
+  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+  function initLockScreen() {
+    const dGrid = document.getElementById("date-grid");
+    const mGrid = document.getElementById("month-grid");
+    for(let d=1; d<=31; d++){
+      let btn = document.createElement("button"); btn.className="chip-btn"; btn.innerText=d;
+      btn.onclick = () => { selDate=d; document.querySelectorAll("#date-grid .chip-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); updateDisp(); };
+      dGrid.appendChild(btn);
+    }
+    monthNames.forEach((m, i)=>{
+      let btn = document.createElement("button"); btn.className="chip-btn"; btn.innerText=m;
+      btn.onclick = () => { selMonth=i+1; document.querySelectorAll("#month-grid .chip-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); updateDisp(); };
+      mGrid.appendChild(btn);
+    });
+  }
+
+  function updateDisp() {
+    const progress = document.getElementById("gate-progress");
+    if (progress) progress.style.width = (selDate && selMonth) ? "100%" : (selDate || selMonth ? "50%" : "0%");
+    const status = document.getElementById("gate-status");
+    if (status) status.innerText = (selDate && selMonth) ? "COORDINATES LOCKED // READY" : "BIRTHDAY ARCHIVE // LOCKED";
+  }
+
+  function verifyPassword() {
+    const err = document.getElementById("error-msg");
+    if(selDate === 14 && selMonth === 10) {
+      err.style.color = "#10b981"; err.innerText = "Akses Diterima! Selamat Ulang Tahun Amang.";
+      const status = document.getElementById("gate-status");
+      if (status) {
+         status.innerText = "ACCESS GRANTED // HAPPY BIRTHDAY";
+         status.style.color = "#ff8e53";
+         status.style.borderColor = "#ff8e53";
+         status.style.background = "rgba(255,142,83,0.1)";
+      }
+      
+      if (typeof confetti === "function") confetti({particleCount:100, spread:70, origin:{y:0.6}});
+      setTimeout(() => {
+        document.getElementById("lock-screen").classList.add("unlocked");
+        setTimeout(() => {
+          document.getElementById("lock-screen").style.display = "none";
+          document.getElementById("main-container").style.display = "block";
+          document.getElementById("site-footer").style.display = "block";
+        }, 600);
+      }, 800);
+    } else {
+      err.style.color = "#ef4444"; err.innerText = "❌ Kombinasi Salah! Hint: Ingat hari jadimu di bulan Oktober.";
+    }
+  }
+
+  // ==========================================
+  // POPUP, TYPEWRITER, CHAT & FLASHCARD
+  // ==========================================
+  let currentOpen = 1; let actOpt = 1; let typeIdx = 0; let typeTxt = ''; let typeTimeout; let chatInterval;
+  let quizStep = 1;
+
+  function showPopup(opt) {
+    actOpt = opt; typeIdx = 0;
+    document.getElementById("popup-title").innerHTML = isEnglish ? messages[opt].title_en : messages[opt].title_id;
+    document.getElementById("popup-text").innerHTML = "";
+    document.getElementById("skip-btn").style.display = "inline-block";
+    document.getElementById("cursor").style.display = "inline-block";
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("dynamic-flashcard").style.display = "none";
+    document.getElementById("media-container").style.display = "none";
+    document.getElementById("popup").style.display = "block";
+    
+    if (opt === 1) {
+      quizStep = 1;
+      document.getElementById("quiz-title-text").innerText = isEnglish ? "Stage 1: Geomatics Instinct" : "Babak 1: Naluri Geomatika";
+      document.getElementById("quiz-hint-text").innerText = isEnglish ? "Hint: The horizontal angle measured clockwise from a north base line. (7 letters)" : "Hint: Sudut horizontal yang diukur searah jarum jam dari arah utara. (7 huruf)";
+      document.getElementById("answer-input").value = "";
+    }
+    
+    if(opt === 5 || opt === 6) setupFlashcards(opt);
+
+    clearTimeout(typeTimeout);
+    clearTimeout(chatInterval);
+
+    if (messages[opt].is_chat) {
+      document.getElementById("skip-btn").style.display = "none";
+      document.getElementById("cursor").style.display = "none";
+      renderChat(isEnglish ? messages[opt].chat_data_en : messages[opt].chat_data_id);
+    } else {
+      typeTxt = isEnglish ? messages[opt].text_en : messages[opt].text_id;
+      typeWriter();
+    }
+    
+    if (opt === 10 && typeof confetti === "function") confetti({particleCount:150, spread:90});
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+    clearTimeout(typeTimeout);
+    clearTimeout(chatInterval);
+  }
+
+  function typeWriter() {
+    if (typeIdx < typeTxt.length) {
+      let char = typeTxt.charAt(typeIdx);
+      document.getElementById("popup-text").innerHTML += (char === '\\n') ? '<br>' : char;
+      typeIdx++;
+      typeTimeout = setTimeout(typeWriter, 12);
+    } else {
+      finishTyping();
+    }
+  }
+  
+  function renderChat(chatData) {
+    const container = document.getElementById("popup-text");
+    container.innerHTML = "<div class='chat-box' id='chat-box'></div>";
+    const chatBox = document.getElementById("chat-box");
+    let msgIdx = 0;
+    
+    function showNextMsg() {
+      if (msgIdx < chatData.length) {
+        const msg = chatData[msgIdx];
+        const bubble = document.createElement("div");
+        bubble.className = `chat-msg ${msg.sender}`;
+        bubble.innerHTML = msg.text;
+        chatBox.appendChild(bubble);
+        
+        // Auto scroll
+        const popup = document.getElementById("popup");
+        popup.scrollTo({ top: popup.scrollHeight, behavior: 'smooth' });
+
+        msgIdx++;
+        chatInterval = setTimeout(showNextMsg, 1200);
+      } else {
+         finishTyping();
+      }
+    }
+    chatInterval = setTimeout(showNextMsg, 600);
+  }
+
+  function skipTyping() {
+    clearTimeout(typeTimeout);
+    if (!messages[actOpt].is_chat) {
+        document.getElementById("popup-text").innerHTML = typeTxt.replace(/\\n/g, '<br>');
+    }
+    finishTyping();
+  }
+
+  function finishTyping() {
+    document.getElementById("skip-btn").style.display = "none";
+    if (actOpt === 1 && currentOpen === 1) document.getElementById("quiz-container").style.display = "block";
+    if (actOpt === 5 || actOpt === 6) document.getElementById("dynamic-flashcard").style.display = "block";
+    if (actOpt === 10) document.getElementById("media-container").style.display = "block";
+    
+    if (actOpt < 10 && actOpt === currentOpen && actOpt !== 1) unlockNext();
+  }
+
+  function unlockNext() {
+    currentOpen++;
+    renderButtons();
+  }
+
+  // QUIZ LOGIC
+  function checkAnswer() {
+    let ans = document.getElementById("answer-input").value.toLowerCase().replace(/\\s/g, '');
+    
+    if (quizStep === 1) {
+      if (ans === "azimuth") {
+        alert(isEnglish ? "Correct, Surveyor!" : "Tepat sekali sang Surveyor! Lanjut ke Babak 2.");
+        quizStep = 2;
+        document.getElementById("quiz-title-text").innerText = isEnglish ? "Stage 2: Biblical HOTS" : "Babak 2: Uji Spiritual Alkitab (HOTS)";
+        document.getElementById("quiz-hint-text").innerText = isEnglish ? "Hint: The prophet commanded to marry a promiscuous woman as a symbol? (5 letters)" : "Hint: Nabi yang diperintahkan Tuhan menikahi perempuan sundal/Gomer? (5 huruf)";
+        document.getElementById("answer-input").value = "";
+      } else alert("❌ Salah!");
+    } 
+    else if (quizStep === 2) {
+      if (ans === "hosea") {
+        alert(isEnglish ? "Amen! Next stage." : "Amin Amang Pendeta! Lanjut ke anak tangga terakhir.");
+        quizStep = 3;
+        document.getElementById("quiz-title-text").innerText = isEnglish ? "Stage 3: The Airport Flashback" : "Babak 3: Memori Bandara";
+        document.getElementById("quiz-hint-text").innerText = isEnglish ? "Hint: Which island did you fly to after I dropped you off at Soekarno-Hatta last year? (10 letters)" : "Hint: Ke pulau manakah kau terbang setelah kuantar ke Bandara Soekarno-Hatta tahun lalu? (10 huruf)";
+        document.getElementById("answer-input").value = "";
+      } else alert("❌ Salah!");
+    } 
+    else if (quizStep === 3) {
+      if (ans === "kalimantan") {
+        alert("🎉 " + (isEnglish ? "Archive completely unlocked!" : "Luar biasa! Gerbang ingatan sepenuhnya terbuka untukmu, Lek."));
+        document.getElementById("quiz-container").style.display = "none";
+        if (currentOpen === 1) unlockNext();
+        closePopup();
+      } else alert("❌ Masa kau lupa? Ingat penerbangan dari Soetta tahun lalu.");
+    }
+  }
+
+  // FLASHCARD LOGIC
+  let currentCards = []; let flashIdx = 0;
+  function setupFlashcards(opt) {
+    if(opt === 5) { // Batam Paradox
+      currentCards = isEnglish ? [
+        ["Why is Amang Marudut an anomaly?", "He is a Marpaung who lives in Batam and struggles with the Batak language."],
+        ["What happens when he speaks Batak?", "It sounds like heavily encrypted Morse code."],
+        ["What is his true Batak heritage?", "Loyalty to friends, humility, and always showing up when needed."]
+      ] : [
+        ["Mengapa Amang Marudut disebut anomali?", "Karena dia Marga Marpaung, Warga Batam, tapi dale (kebingungan) bahasa Batak."],
+        ["Apa yang terjadi jika dia maksa bahasa Batak?", "Terdengar seperti sandi morse yang belum di-decode secara acak."],
+        ["Apa warisan Batak sejatinya?", "Setia kawan, rela berkorban di saat krisis, dan rendah hati."]
+      ];
+      document.getElementById("flash-title").innerText = isEnglish ? "The Batam Paradox Cards" : "Kartu Paradoks Batam";
+    } else if (opt === 6) { // Poda
+      currentCards = isEnglish ? [
+        ["Malaysian Proverb for Friendship?", "'Hujan emas di negeri orang...'  True friends are your real home."],
+        ["Batak Poda: Tinampul bulung sihupi...", "Let friendship not retreat, but let it grow ever stronger."],
+        ["Survival Rule for Surveyor?", "Stay grounded and help others, no matter how many projects you win."]
+      ] : [
+        ["Macam mana pepatah Malaysia ckp pasal sahabat?", "'Hujan emas di negeri orang...' Kawan sejatilah tempat kita berteduh."],
+        ["Poda Batak: Tinampul bulung sihupi...", "Jangan mundur ikatan perkawanan, makin teguhlah hendaknya."],
+        ["Poda untuk si Surveyor?", "Tetap membumi walau projek lebat dan bantu hangatkan orang di sekitarmu."]
+      ];
+      document.getElementById("flash-title").innerText = isEnglish ? "Poda & Survival Cards" : "Kartu Poda & Survival";
+    }
+    flashIdx = 0;
+    updateFlashcard();
+  }
+
+  function updateFlashcard() {
+    document.getElementById("dynamic-flashcard").querySelector(".flashcard").classList.remove("flipped");
+    document.getElementById("flash-front").innerText = currentCards[flashIdx][0];
+    document.getElementById("flash-back").innerText = currentCards[flashIdx][1];
+  }
+
+  function flipFlashcard() {
+    document.getElementById("dynamic-flashcard").querySelector(".flashcard").classList.toggle("flipped");
+  }
+
+  function nextFlash(e) { e.stopPropagation(); flashIdx = (flashIdx + 1) % currentCards.length; updateFlashcard(); }
+  function prevFlash(e) { e.stopPropagation(); flashIdx = (flashIdx - 1 + currentCards.length) % currentCards.length; updateFlashcard(); }
+  
+  function toggleTheme() { document.body.classList.toggle("light-theme"); }
+</script>
+</body>
+</html>
